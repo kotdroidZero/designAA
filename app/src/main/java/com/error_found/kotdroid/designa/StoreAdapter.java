@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,13 +25,55 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static final int POSITION_LEFT = 0;
     public static final int POSITION_RIGHT = 1;
     public static final int LOADER = 3;
-    List<ModelStore> list;
+    List<ModelStore> modelStoreList=new ArrayList<>();
     Context context;
     private boolean loading=true;
 
-    public StoreAdapter(List<ModelStore> list, Context context) {
-        this.list = list;
+    public StoreAdapter( Context context) {
+
         this.context = context;
+        setData();
+    }
+
+    private void setData() {
+
+
+
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Solitaire", 10, 4.2, "FREE", 0));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Subway Surfers", 53, 4.6, "FREE", 1));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Ninza", 10, 4.2, "FREE", 1));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Asphalt 8", 500, 4.9, "100 Rs.", 0));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Maze Runner", 645, 4, "2000 Rs.", 0));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Solitaire", 10, 4.2, "FREE", 0));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Subway Surfers", 53, 4.6, "FREE", 1));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Ninza", 10, 4.2, "FREE", 1));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Asphalt 8", 500, 4.9, "100 Rs.", 0));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Maze Runner", 645, 4, "2000 Rs.", 0));
+
+    }
+
+    public void setMoreData()
+    {
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Solitaire", 10, 4.2, "FREE", 0));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Subway Surfers", 53, 4.6, "FREE", 1));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Ninza", 10, 4.2, "FREE", 1));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Asphalt 8", 500, 4.9, "100 Rs.", 0));
+        modelStoreList.add(new ModelStore(R.mipmap.ic_launcher_round,
+                "Maze Runner", 645, 4, "2000 Rs.", 0));
     }
 
     @Override
@@ -53,30 +98,31 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof ViewHolderLeft) {
-            ((ViewHolderLeft) holder).tvSize.setText(list.get(position).size + " MB ");
-            ((ViewHolderLeft) holder).tvName.setText(list.get(position).name);
-            ((ViewHolderLeft) holder).tvPrice.setText(list.get(position).price);
-            ((ViewHolderLeft) holder).tvRating.setText(list.get(position).rating + "*");
+            ((ViewHolderLeft) holder).tvSize.setText(modelStoreList.get(position).size + " MB ");
+            ((ViewHolderLeft) holder).tvName.setText(modelStoreList.get(position).name);
+            ((ViewHolderLeft) holder).tvPrice.setText(modelStoreList.get(position).price);
+            ((ViewHolderLeft) holder).tvRating.setText(modelStoreList.get(position).rating + "*");
         } else if (holder instanceof ViewHolderRight) {
 
-            ((ViewHolderRight) holder).tvSize.setText(list.get(position).size + " MB ");
-            ((ViewHolderRight) holder).tvName.setText(list.get(position).name);
-            ((ViewHolderRight) holder).tvPrice.setText(list.get(position).price);
-            ((ViewHolderRight) holder).tvRating.setText(list.get(position).rating + "*");
+            ((ViewHolderRight) holder).tvSize.setText(modelStoreList.get(position).size + " MB ");
+            ((ViewHolderRight) holder).tvName.setText(modelStoreList.get(position).name);
+            ((ViewHolderRight) holder).tvPrice.setText(modelStoreList.get(position).price);
+            ((ViewHolderRight) holder).tvRating.setText(modelStoreList.get(position).rating + "*");
         }
         else if (holder instanceof ViewHolderFooterLoader)
         {
             if (loading)
             {
                 ((ViewHolderFooterLoader) holder).progressBar.setVisibility(View.VISIBLE);
-                if (list.size()<100)
+                if (modelStoreList.size()<100)
                 {
+
                     ((MainActivity)context).loadMoreDataToList();
                     //load more from activity
                     //set boolean loading to true
                     setLoaded(true);
                 }
-                if (list.size()==100)
+                if (modelStoreList.size()==100)
                 {
                     ((ViewHolderFooterLoader) holder).progressBar.setVisibility(View.GONE);
                     //setboolean to false
@@ -93,6 +139,8 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
 
+
+
     }
 
     private void setLoaded(boolean isLoading)
@@ -106,16 +154,16 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
     @Override
     public int getItemViewType(int position) {
-        if (position == list.size()) {
+        if (position == modelStoreList.size()) {
             return LOADER;
         }
-        return list.get(position).position;
+        return modelStoreList.get(position).position;
 
     }
 
     @Override
     public int getItemCount() {
-        return list.size() + 1;
+        return modelStoreList.size() + 1;
     }
 
     public class ViewHolderLeft extends RecyclerView.ViewHolder {
